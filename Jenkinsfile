@@ -18,12 +18,13 @@ pipeline {
       steps {
         script {
           def phase = isReleaseOrMasterBranch() ? 'deploy' : 'verify'
-          maven cmd: "clean ${phase} -DskipTests"
+          maven cmd: "clean ${phase}"
         }
         archiveArtifacts 'org.eclipse.lemminx/target/*.jar'
         withChecks('Maven Issues') {
           recordIssues tools: [mavenConsole()], qualityGates: [[threshold: 1, type: 'TOTAL']]
         }
+		junit 'org.eclipse.lemminx/target/surefire-reports/**/*.xml' 
       }
     }
   }
