@@ -22,8 +22,11 @@ pipeline {
         }
         archiveArtifacts 'org.eclipse.lemminx/target/*.jar'
         withChecks('Maven Issues') {
-          recordIssues tools: [mavenConsole()], qualityGates: [[threshold: 1, type: 'TOTAL']]
-        }
+		   recordIssues skipPublishingChecks: skipPublishingChecks, tools: [mavenConsole()], qualityGates: [[threshold: 1, type: 'TOTAL']], filters: [
+    		// no warning for skipped tests - we use this for IntegrationTest if you skip for specific TestDatabase
+    		excludeMessage('.*Skipped.*')
+  			]
+		}
 		junit 'org.eclipse.lemminx/target/surefire-reports/**/*.xml' 
       }
     }
