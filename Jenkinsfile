@@ -14,7 +14,7 @@ pipeline {
   }
 
   stages {
-	stage('build') {
+    stage('build') {
       steps {
         script {
           def phase = isReleaseOrMasterBranch() ? 'deploy' : 'verify'
@@ -22,12 +22,11 @@ pipeline {
         }
         archiveArtifacts 'org.eclipse.lemminx/target/*.jar'
         withChecks('Maven Issues') {
-		   recordIssues skipPublishingChecks: skipPublishingChecks, tools: [mavenConsole()], qualityGates: [[threshold: 1, type: 'TOTAL']], filters: [
-    		// no warning for skipped tests - we use this for IntegrationTest if you skip for specific TestDatabase
-    		excludeMessage('.*Skipped.*')
-  			]
-		}
-		junit 'org.eclipse.lemminx/target/surefire-reports/**/*.xml' 
+          recordIssues skipPublishingChecks: true, tools: [mavenConsole()], qualityGates: [[threshold: 1, type: 'TOTAL']], filters: [
+            excludeMessage('.*Skipped.*')
+          ]
+        }
+        junit 'org.eclipse.lemminx/target/surefire-reports/**/*.xml' 
       }
     }
   }
