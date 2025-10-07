@@ -22,9 +22,10 @@ pipeline {
         }
         archiveArtifacts 'org.eclipse.lemminx/target/*.jar'
         withChecks('Maven Issues') {
-          recordIssues skipPublishingChecks: true, tools: [mavenConsole()], qualityGates: [[threshold: 1, type: 'TOTAL']], filters: [
-            excludeMessage('.*Skipped.*')
-          ]
+          recordIssues skipPublishingChecks: true, 
+          tools: [mavenConsole()], 
+          qualityGates: [[threshold: 1, type: 'TOTAL']], 
+          filters: [excludeMessage('.*Skipped.*')]
         }
         junit 'org.eclipse.lemminx/target/surefire-reports/**/*.xml' 
       }
