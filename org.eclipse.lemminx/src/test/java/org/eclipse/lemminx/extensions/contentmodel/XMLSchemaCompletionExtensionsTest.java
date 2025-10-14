@@ -1458,12 +1458,11 @@ public class XMLSchemaCompletionExtensionsTest extends BaseFileTempTest {
 				"</project>";
 
 		String mavenFileURI = getXMLSchemaFileURI("maven-4.0.0.xsd");
-		testCompletionMarkdownSupportFor(xml, c("groupId", te(3, 1, 3, 2, "<groupId></groupId>"), "<groupId", "\n\n3.0.0+" + //
-				"\n\n\n\n" + 
+		testCompletionMarkdownSupportFor(xml, c("groupId", te(3, 1, 3, 2, "<groupId></groupId>"), "<groupId", "3.0.0+" + //
 				"A universally unique identifier for a project. It is normal to use " + //
 				"a fully-qualified package name to distinguish it from other projects with a similar name " + //
 				"(eg. `org.apache.maven`)." + //
-				"\n\n\n\nSource: [maven-4.0.0.xsd](" + mavenFileURI + ")\n\n", MarkupKind.MARKDOWN));
+				"Source: [maven-4.0.0.xsd](" + mavenFileURI + ")", MarkupKind.MARKDOWN));
 	}
 
 	private static String getXMLSchemaFileURI(String schemaURI) throws MalformedURIException {
