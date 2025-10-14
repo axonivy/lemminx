@@ -80,11 +80,6 @@ public class XMLSchemaHoverExtendedComplexTypeTest extends AbstractCacheBasedTes
 		return settings;
 	}
 
-//	private static String getXMLSchemaFileURI(String schemaURI) throws MalformedURIException {
-//		return XMLEntityManager.expandSystemId("xsd/" + schemaURI, "src/test/resources/test.xml", true).replace("///",
-//				"/");
-//	}
-
 	private static String getXMLSchemaFileURI(String schemaURI) throws MalformedURIException {
 		String res = XMLEntityManager.expandSystemId("xsd/" + schemaURI, "src/test/resources/test.xml", true);
 		if (res.startsWith("file:/") && !res.startsWith("file:///")) {
@@ -93,7 +88,7 @@ public class XMLSchemaHoverExtendedComplexTypeTest extends AbstractCacheBasedTes
 		return res;
 		
 	}
-	
+
 	private void assertHover(String xml, String expected, Range range) throws BadLocationException, MalformedURIException {
 		XMLAssert.assertHover(new XMLLanguageService(), xml, null, "src/test/resources/extendedComplexType.xml", expected, range, //
 				createSharedSettings(SchemaDocumentationType.documentation, true));

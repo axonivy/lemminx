@@ -12,6 +12,7 @@
  */
 package org.eclipse.lemminx;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.eclipse.lemminx.utils.TextEditUtils.applyEdits;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -1269,10 +1270,7 @@ public class XMLAssert {
 			assertNull(hover);
 		} else {
 			String actualHoverLabel = getHoverLabel(hover);
-			// Normalize line endings for comparison
-			String actualNormalized = actualHoverLabel != null ? actualHoverLabel.replaceAll("\n","").replaceAll("\r","") : null;
-			String expectedNormalized = expectedHoverLabel.replaceAll("\n","").replaceAll("\r","");
-			assertEquals(expectedNormalized, actualNormalized);
+			assertThat(expectedHoverLabel).isEqualToIgnoringWhitespace(actualHoverLabel);
 			
 			if (expectedHoverRange != null) {
 				assertEquals(expectedHoverRange, hover.getRange());

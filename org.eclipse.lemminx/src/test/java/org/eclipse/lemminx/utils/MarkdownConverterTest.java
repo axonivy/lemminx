@@ -25,7 +25,7 @@ public class MarkdownConverterTest {
 	@Test
 	public void testHTMLConversion() {
 		assertEquals("This is `my code`", convert("This is <code>my code</code>"));
-		assertThat("This is\s\s" + System.lineSeparator() + "**bold**").isEqualToIgnoringWhitespace(convert("This is<br><b>bold</b>"));
+		assertThat("This is" + System.lineSeparator() + "**bold**").isEqualToIgnoringWhitespace(convert("This is<br><b>bold</b>"));
 		assertEquals("The `<project>` element is the root of the descriptor.", convert("The <code>&lt;project&gt;</code> element is the root of the descriptor."));
 		assertEquals("# Hey Man", convert("<h1>Hey Man</h1>"));
 		assertEquals("[Placeholder](https://www.xml.com)", convert("<a href=\"https://www.xml.com\">Placeholder</a>"));
