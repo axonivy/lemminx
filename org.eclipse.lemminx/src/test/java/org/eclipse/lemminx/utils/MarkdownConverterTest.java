@@ -25,9 +25,9 @@ public class MarkdownConverterTest {
 	@Test
 	public void testHTMLConversion() {
 		assertEquals("This is `my code`", convert("This is <code>my code</code>"));
-		assertThat("This is" + System.lineSeparator() + "**bold**").isEqualToIgnoringWhitespace(convert("This is<br><b>bold</b>"));
+		assertThat("This is \n\n**bold**").isEqualToIgnoringWhitespace(convert("This is<br><b>bold</b>"));
 		assertEquals("The `<project>` element is the root of the descriptor.", convert("The <code>&lt;project&gt;</code> element is the root of the descriptor."));
-		assertEquals("# Hey Man", convert("<h1>Hey Man</h1>"));
+		assertEquals("\n\n# Hey Man\n\n", convert("<h1>Hey Man</h1>"));
 		assertEquals("[Placeholder](https://www.xml.com)", convert("<a href=\"https://www.xml.com\">Placeholder</a>"));
 
 		String htmlList =
@@ -37,9 +37,9 @@ public class MarkdownConverterTest {
 			"  <li>Milk</li>" + System.lineSeparator() +
 			"</ul>";
 		String expectedList = 
-			" *  Coffee" + System.lineSeparator() +
-			" *  Tea" + System.lineSeparator() +
-			" *  Milk";
+			" * Coffee" + System.lineSeparator() +
+			" * Tea" + System.lineSeparator() +
+			" * Milk";
 		assertThat(expectedList).isEqualToIgnoringWhitespace(convert(htmlList));
 		assertEquals("ONLY_THIS_TEXT", convert("<p>ONLY_THIS_TEXT</p>"));
 
