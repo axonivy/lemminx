@@ -303,16 +303,5 @@
 			<version>11.0.24</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.vladsch.flexmark</groupId>
-			<artifactId>flexmark-html2md-converter</artifactId>
-			<version>0.64.8</version>
-			<exclusions>
-				<exclusion>
-					<groupId>com.vladsch.flexmark</groupId>
-					<artifactId>flexmark-ext-emoji</artifactId>
-				</exclusion>
-			</exclusions>			
-		</dependency>
 	</dependencies>
 </project>
