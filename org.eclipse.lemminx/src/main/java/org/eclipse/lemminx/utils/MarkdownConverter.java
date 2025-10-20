@@ -215,7 +215,9 @@ public class MarkdownConverter {
 	}
 
 	private void p(Element p) {
+		markdown.append("\n\n");
 		children(p);
+		markdown.append("\n\n");
 	}
 
 	private void br() {
