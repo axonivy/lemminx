@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>ch.ivyteam.lemminx</groupId>
 		<artifactId>lemminx-parent</artifactId>
-		<version>0.31.1-SNAPSHOT</version>
+		<version>0.31.1</version>
 		<relativePath>../</relativePath>
 	</parent>
 	<artifactId>org.eclipse.lemminx</artifactId>
