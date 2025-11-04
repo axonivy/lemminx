@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang3.Strings;
 import org.apache.xerces.xni.XMLLocator;
 import org.eclipse.lemminx.commons.BadLocationException;
 import org.eclipse.lemminx.dom.DOMDocument;
@@ -50,10 +51,11 @@ import org.eclipse.lsp4j.Range;
  */
 public abstract class AbstractReferencedGrammarLSPErrorReporter extends AbstractLSPErrorReporter {
 
+
 	protected final ContentModelManager contentModelManager;
 	private final Map<String, ReferencedGrammarDiagnosticsInfo> referencedGrammarDiagnosticsInfoCache;
-
 	private final boolean hasRelatedInformation;
+	private final String NAMESPACE_ERROR_CODE = "cvc-complex-type";
 
 	public AbstractReferencedGrammarLSPErrorReporter(String source, DOMDocument xmlDocument,
 			List<Diagnostic> diagnostics, ContentModelManager contentModelManager, boolean hasRelatedInformation,
@@ -230,6 +232,9 @@ public abstract class AbstractReferencedGrammarLSPErrorReporter extends Abstract
 				return DiagnosticSeverity.Error;
 			}
 		}
+		if(isCvcComplexType(key)){
+			return DiagnosticSeverity.Warning;
+		}
 		return super.getSeverity(domain, key, arguments, severity, exception);
 	}
 
@@ -257,6 +262,10 @@ public abstract class AbstractReferencedGrammarLSPErrorReporter extends Abstract
 			}
 		}
 		return super.getCode(domain, key, arguments, exception);
+	}
+
+	private boolean isCvcComplexType(String key) {
+		return Strings.CS.startsWith(key, NAMESPACE_ERROR_CODE);
 	}
 
 	private boolean isReferencedGrammarError(String key) {
