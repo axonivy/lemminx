@@ -108,7 +108,7 @@ public class XMLValidationCommandTest extends BaseFileTempTest {
 									DiagnosticSeverity.Error)), //
 					pd(xmlIdentifier.getUri(), d(4, 3, 4, 7, XMLSchemaErrorCode.cvc_complex_type_2_4_a,
 							"Element name 'tags' is invalid.\n\nOne of the following is expected:\n - tag\n\nError indicated by:\n {the schema}\nwith code:",
-							"xml", DiagnosticSeverity.Error)
+							"xml", DiagnosticSeverity.Warning)
 
 					));
 			actualDiagnostics.clear();
@@ -263,7 +263,7 @@ public class XMLValidationCommandTest extends BaseFileTempTest {
 									DiagnosticSeverity.Error)), //
 					pd(xml1Identifier.getUri(), d(4, 3, 4, 7, XMLSchemaErrorCode.cvc_complex_type_2_4_a,
 							"Element name 'tags' is invalid.\n\nOne of the following is expected:\n - tag\n\nError indicated by:\n {the schema}\nwith code:",
-							"xml", DiagnosticSeverity.Error)), //
+							"xml", DiagnosticSeverity.Warning)), //
 					pd(xml2Identifier.getUri(),
 							d(1, 23, 1, 53, ExternalResourceErrorCode.DownloadingResource,
 									"The resource '" + dtdURL + "' is downloading in the cache path '" + dtdCachePath

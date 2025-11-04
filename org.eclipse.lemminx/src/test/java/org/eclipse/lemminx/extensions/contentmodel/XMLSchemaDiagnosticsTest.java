@@ -1186,7 +1186,7 @@ public class XMLSchemaDiagnosticsTest extends AbstractCacheBasedTest {
 
 		Diagnostic diagnosticBasedOnXSD = new Diagnostic(r(2, 2, 2, 6),
 				"Element name 'barX' is invalid.\n\nOne of the following is expected:\n - bar\n\nError indicated by:\n {the schema}\nwith code:",
-				DiagnosticSeverity.Error, "xml", XMLSchemaErrorCode.cvc_complex_type_2_4_a.getCode());
+				DiagnosticSeverity.Warning, "xml", XMLSchemaErrorCode.cvc_complex_type_2_4_a.getCode());
 
 		XMLLanguageService xmlLanguageService = new XMLLanguageService();
 		// First validation
@@ -1218,7 +1218,7 @@ public class XMLSchemaDiagnosticsTest extends AbstractCacheBasedTest {
 
 		Diagnostic diagnosticBasedOnXSD = new Diagnostic(r(2, 2, 2, 6),
 				"Element name 'barX' is invalid.\n\nOne of the following is expected:\n - bar\n\nError indicated by:\n {the schema}\nwith code:",
-				DiagnosticSeverity.Error, "xml", XMLSchemaErrorCode.cvc_complex_type_2_4_a.getCode());
+				DiagnosticSeverity.Warning, "xml", XMLSchemaErrorCode.cvc_complex_type_2_4_a.getCode());
 
 		XMLLanguageService xmlLanguageService = new XMLLanguageService();
 		// First validation
