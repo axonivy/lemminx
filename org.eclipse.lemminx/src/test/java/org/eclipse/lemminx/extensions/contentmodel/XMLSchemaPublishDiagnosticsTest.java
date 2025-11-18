@@ -59,9 +59,9 @@ public class XMLSchemaPublishDiagnosticsTest extends AbstractCacheBasedTest {
 				"";
 		XMLAssert.testPublishDiagnosticsFor(xml, fileURI, configuration, pd(fileURI, //
 				new Diagnostic(r(2, 32, 2, 50),
-						"schema_reference.4: Failed to read schema document 'http://invoice.xsd', because 1) could not find the document; 2) the document could not be read; 3) the root element of the document is not <xsd:schema>.",
+						"Failed to read schema document 'http://invoice.xsd', because 1) could not find the document; 2) the document could not be read; 3) the root element of the document is not <xsd:schema>.",
 						DiagnosticSeverity.Warning, "xml", "schema_reference.4"), //
-				new Diagnostic(r(1, 1, 1, 8), "cvc-elt.1.a: Cannot find the declaration of element 'invoice'.",
+				new Diagnostic(r(1, 1, 1, 8), "Cannot find the declaration of element 'invoice'.",
 						DiagnosticSeverity.Error, "xml", "cvc-elt.1.a")));
 	}
 
@@ -90,9 +90,9 @@ public class XMLSchemaPublishDiagnosticsTest extends AbstractCacheBasedTest {
 				"";
 		XMLAssert.testPublishDiagnosticsFor(xml, fileURI, configuration, pd(fileURI, //
 				new Diagnostic(r(2, 32, 2, 50),
-						"schema_reference.4: Failed to read schema document 'http://invoice.xsd', because 1) could not find the document; 2) the document could not be read; 3) the root element of the document is not <xsd:schema>.",
+						"Failed to read schema document 'http://invoice.xsd', because 1) could not find the document; 2) the document could not be read; 3) the root element of the document is not <xsd:schema>.",
 						DiagnosticSeverity.Warning, "xml", "schema_reference.4"), //
-				new Diagnostic(r(1, 1, 1, 8), "cvc-elt.1.a: Cannot find the declaration of element 'invoice'.",
+				new Diagnostic(r(1, 1, 1, 8), "Cannot find the declaration of element 'invoice'.",
 						DiagnosticSeverity.Error, "xml", "cvc-elt.1.a")));
 	}
 
@@ -118,9 +118,9 @@ public class XMLSchemaPublishDiagnosticsTest extends AbstractCacheBasedTest {
 				"";
 		XMLAssert.testPublishDiagnosticsFor(xml, fileURI, configuration, pd(fileURI, //
 				new Diagnostic(r(2, 20, 2, 40),
-						"SchemaLocation: schemaLocation value = 'http://invoice.xsd' must have even number of URI's.",
+						"schemaLocation value = 'http://invoice.xsd' must have even number of URI's.",
 						DiagnosticSeverity.Warning, "xml", "SchemaLocation"), //
-				new Diagnostic(r(1, 1, 1, 8), "cvc-elt.1.a: Cannot find the declaration of element 'invoice'.",
+				new Diagnostic(r(1, 1, 1, 8), "Cannot find the declaration of element 'invoice'.",
 						DiagnosticSeverity.Error, "xml", "cvc-elt.1.a")));
 	}
 
@@ -153,7 +153,7 @@ public class XMLSchemaPublishDiagnosticsTest extends AbstractCacheBasedTest {
 				new Diagnostic(r(2, 32, 2, 50),
 						"The resource 'http://invoice.xsd' is downloading in the cache path '" + xsdCachePath + "'.",
 						DiagnosticSeverity.Information, "xml", ExternalResourceErrorCode.DownloadingResource.getCode()),
-				new Diagnostic(r(1, 1, 1, 8), "cvc-elt.1.a: Cannot find the declaration of element 'invoice'.",
+				new Diagnostic(r(1, 1, 1, 8), "Cannot find the declaration of element 'invoice'.",
 						DiagnosticSeverity.Error, "xml", XMLSchemaErrorCode.cvc_elt_1_a.getCode())));
 
 		TimeUnit.SECONDS.sleep(5); // HACK: to make the timing work on slow machines
@@ -164,7 +164,7 @@ public class XMLSchemaPublishDiagnosticsTest extends AbstractCacheBasedTest {
 						"Error while downloading 'http://invoice.xsd' to '" + xsdCachePath
 								+ "' : '[java.net.UnknownHostException] invoice.xsd'.",
 						DiagnosticSeverity.Error, "xml", ExternalResourceErrorCode.DownloadProblem.getCode()),
-				new Diagnostic(r(1, 1, 1, 8), "cvc-elt.1.a: Cannot find the declaration of element 'invoice'.",
+				new Diagnostic(r(1, 1, 1, 8), "Cannot find the declaration of element 'invoice'.",
 						DiagnosticSeverity.Error, "xml", XMLSchemaErrorCode.cvc_elt_1_a.getCode())));
 	}
 
@@ -206,7 +206,7 @@ public class XMLSchemaPublishDiagnosticsTest extends AbstractCacheBasedTest {
 						"Content of type 'date' is expected.\n\nThe following content is not a valid type:\n '2017-11-30_INVALID'\n\nCode:",
 						DiagnosticSeverity.Error, "xml", XMLSchemaErrorCode.cvc_datatype_valid_1_2_1.getCode()), //
 				new Diagnostic(r(3, 8, 3, 26),
-						"cvc-type.3.1.3: The value '2017-11-30_INVALID' of element 'date' is not valid.",
+						"The value '2017-11-30_INVALID' of element 'date' is not valid.",
 						DiagnosticSeverity.Error, "xml", XMLSchemaErrorCode.cvc_type_3_1_3.getCode())));
 	}
 
@@ -250,7 +250,7 @@ public class XMLSchemaPublishDiagnosticsTest extends AbstractCacheBasedTest {
 						"Content of type 'date' is expected.\n\nThe following content is not a valid type:\n '2017-11-30_INVALID'\n\nCode:",
 						DiagnosticSeverity.Error, "xml", XMLSchemaErrorCode.cvc_datatype_valid_1_2_1.getCode()), //
 				new Diagnostic(r(3, 8, 3, 26),
-						"cvc-type.3.1.3: The value '2017-11-30_INVALID' of element 'date' is not valid.",
+						"The value '2017-11-30_INVALID' of element 'date' is not valid.",
 						DiagnosticSeverity.Error, "xml", XMLSchemaErrorCode.cvc_type_3_1_3.getCode())));
 	}
 

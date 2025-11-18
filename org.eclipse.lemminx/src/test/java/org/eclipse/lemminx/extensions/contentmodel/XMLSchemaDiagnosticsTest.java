@@ -796,7 +796,7 @@ public class XMLSchemaDiagnosticsTest extends AbstractCacheBasedTest {
 				"    <camel:beani></camel:beani>\n" + //
 				"</beans>";
 		Diagnostic diagnostic = d(6, 5, 6, 16, XMLSchemaErrorCode.cvc_complex_type_2_4_c,
-				"cvc-complex-type.2.4.c: The matching wildcard is strict, but no declaration can be found for element 'camel:beani'.");
+				"The matching wildcard is strict, but no declaration can be found for element 'camel:beani'.");
 		testDiagnosticsWithCatalogFor(xml, diagnostic);
 		testCodeActionsWithCatalogFor(xml, diagnostic, //
 				ca(diagnostic, te(6, 11, 6, 16, "bean"), te(6, 25, 6, 30, "bean")), //
@@ -810,7 +810,7 @@ public class XMLSchemaDiagnosticsTest extends AbstractCacheBasedTest {
 				+ "      xmlns:schemaA=\"http://schemaA\" \n" + "      xmlns:schemaB=\"http://schemaB\">\n"
 				+ "   <schemaA:XXXXX></schemaA:XXXXX>\n" + "</schemaB:BRootElement>";
 		Diagnostic diagnostic = d(5, 4, 5, 17, XMLSchemaErrorCode.cvc_complex_type_2_4_c,
-				"cvc-complex-type.2.4.c: The matching wildcard is strict, but no declaration can be found for element 'schemaA:XXXXX'.");
+				"The matching wildcard is strict, but no declaration can be found for element 'schemaA:XXXXX'.");
 		testDiagnosticsFor(xml, diagnostic);
 		testCodeActionsFor(xml, diagnostic,
 				ca(diagnostic, te(5, 12, 5, 17, "AElement1"), te(5, 28, 5, 33, "AElement1")),
@@ -836,7 +836,7 @@ public class XMLSchemaDiagnosticsTest extends AbstractCacheBasedTest {
 				"    <int>42</int>\n" + //
 				"</int>";
 		Diagnostic diagnostic = d(1, 1, 1, 4, XMLSchemaErrorCode.cvc_complex_type_2_2,
-				"cvc-complex-type.2.2: Element 'int' must have no element [children], and the value must be valid.");
+				"Element 'int' must have no element [children], and the value must be valid.");
 		testDiagnosticsWithCatalogFor(xml, diagnostic);
 	}
 
@@ -849,7 +849,7 @@ public class XMLSchemaDiagnosticsTest extends AbstractCacheBasedTest {
 		Diagnostic diagnosticBob = d(2, 4, 2, 7, XMLSchemaErrorCode.cvc_datatype_valid_1_2_1,
 				"Content of type 'integer' is expected.\n\nThe following content is not a valid type:\n 'Bob'\n\nCode:");
 		Diagnostic diagnostic_cvc_2_2 = d(1, 1, 1, 4, XMLSchemaErrorCode.cvc_complex_type_2_2,
-				"cvc-complex-type.2.2: Element 'int' must have no element [children], and the value must be valid.");
+				"Element 'int' must have no element [children], and the value must be valid.");
 		testDiagnosticsWithCatalogFor(xml, diagnosticBob, diagnostic_cvc_2_2);
 	}
 
@@ -943,9 +943,9 @@ public class XMLSchemaDiagnosticsTest extends AbstractCacheBasedTest {
 				"<?xml-model href=\"src/test/resources/xsd/two-letter-name.xsd\"?>\n" + //
 				"<two-letter-name xmlns=\"BAD_NS\">Io</two-letter-name>";
 		Diagnostic targetNamespace = d(2, 23, 2, 31, XMLSchemaErrorCode.TargetNamespace_1,
-				"TargetNamespace.1: Expecting namespace 'BAD_NS', but the target namespace of the schema document is 'http://two-letter-name'.");
+				"Expecting namespace 'BAD_NS', but the target namespace of the schema document is 'http://two-letter-name'.");
 		testDiagnosticsWithCatalogFor(xml, targetNamespace, d(2, 1, 2, 16, XMLSchemaErrorCode.cvc_elt_1_a,
-				"cvc-elt.1.a: Cannot find the declaration of element 'two-letter-name'."));
+				"Cannot find the declaration of element 'two-letter-name'."));
 		testCodeActionsFor(xml, targetNamespace, ca(targetNamespace, te(2, 23, 2, 31, "\"http://two-letter-name\"")));
 	}
 
@@ -955,9 +955,9 @@ public class XMLSchemaDiagnosticsTest extends AbstractCacheBasedTest {
 				"<?xml-model href=\"src/test/resources/xsd/two-letter-name.xsd\"?>\n" + //
 				"<two-letter-name xmlns=\"_\">Io</two-letter-name>";
 		Diagnostic targetNamespace = d(2, 23, 2, 26, XMLSchemaErrorCode.TargetNamespace_1,
-				"TargetNamespace.1: Expecting namespace '_', but the target namespace of the schema document is 'http://two-letter-name'.");
+				"Expecting namespace '_', but the target namespace of the schema document is 'http://two-letter-name'.");
 		testDiagnosticsWithCatalogFor(xml, targetNamespace, d(2, 1, 2, 16, XMLSchemaErrorCode.cvc_elt_1_a,
-				"cvc-elt.1.a: Cannot find the declaration of element 'two-letter-name'."));
+				"Cannot find the declaration of element 'two-letter-name'."));
 		testCodeActionsFor(xml, targetNamespace, ca(targetNamespace, te(2, 23, 2, 26, "\"http://two-letter-name\"")));
 	}
 
@@ -981,9 +981,9 @@ public class XMLSchemaDiagnosticsTest extends AbstractCacheBasedTest {
 				"<?xml-model href=\"src/test/resources/xsd/two-letter-name.xsd\"?>\n" + //
 				"<two-letter-name>Io</two-letter-name>";
 		Diagnostic targetNamespace = d(2, 1, 2, 16, XMLSchemaErrorCode.TargetNamespace_2,
-				"TargetNamespace.2: Expecting no namespace, but the schema document has a target namespace of 'http://two-letter-name'.");
+				"Expecting no namespace, but the schema document has a target namespace of 'http://two-letter-name'.");
 		testDiagnosticsWithCatalogFor(xml, targetNamespace, d(2, 1, 2, 16, XMLSchemaErrorCode.cvc_elt_1_a,
-				"cvc-elt.1.a: Cannot find the declaration of element 'two-letter-name'."));
+				"Cannot find the declaration of element 'two-letter-name'."));
 		testCodeActionsFor(xml, targetNamespace,
 				ca(targetNamespace, te(2, 16, 2, 16, " xmlns=\"http://two-letter-name\"")));
 	}
@@ -997,7 +997,7 @@ public class XMLSchemaDiagnosticsTest extends AbstractCacheBasedTest {
 		settings.getFormattingSettings().setEnforceQuoteStyle(EnforceQuoteStyle.preferred);
 		settings.getPreferences().setQuoteStyle(QuoteStyle.singleQuotes);
 		Diagnostic targetNamespace = d(2, 1, 2, 16, XMLSchemaErrorCode.TargetNamespace_2,
-				"TargetNamespace.2: Expecting no namespace, but the schema document has a target namespace of 'http://two-letter-name'.");
+				"Expecting no namespace, but the schema document has a target namespace of 'http://two-letter-name'.");
 		testCodeActionsFor(xml, targetNamespace, settings,
 				ca(targetNamespace, te(2, 16, 2, 16, " xmlns='http://two-letter-name'")));
 	}
@@ -1010,11 +1010,11 @@ public class XMLSchemaDiagnosticsTest extends AbstractCacheBasedTest {
 				"</invoice>";
 		Diagnostic missingSchemaDiagnostic = d(2, 33, 44, XMLSchemaErrorCode.schema_reference_4);
 		missingSchemaDiagnostic
-				.setMessage("schema_reference.4: Failed to read schema document " + "'file:///sala'd.xsd',"
+				.setMessage("Failed to read schema document " + "'file:///sala'd.xsd',"
 						+ " because 1) could not find the document; 2) the document could not be read;"
 						+ " 3) the root element of the document is not <xsd:schema>.");
 		Diagnostic eltDiagnostic = d(1, 1, 8, XMLSchemaErrorCode.cvc_elt_1_a);
-		eltDiagnostic.setMessage("cvc-elt.1.a: Cannot find the declaration of element 'invoice'.");
+		eltDiagnostic.setMessage("Cannot find the declaration of element 'invoice'.");
 		testDiagnosticsFor(xml, missingSchemaDiagnostic, eltDiagnostic);
 
 		SharedSettings settings = new SharedSettings();
@@ -1043,11 +1043,11 @@ public class XMLSchemaDiagnosticsTest extends AbstractCacheBasedTest {
 				"  xsi:noNamespaceSchemaLocation=\"/salad.xsd\">\n" + //
 				"</invoice>";
 		Diagnostic missingSchema = d(2, 33, 43, XMLSchemaErrorCode.schema_reference_4);
-		missingSchema.setMessage("schema_reference.4: Failed to read schema document " + "'file:///salad.xsd',"
+		missingSchema.setMessage("Failed to read schema document " + "'file:///salad.xsd',"
 				+ " because 1) could not find the document; 2) the document could not be read;"
 				+ " 3) the root element of the document is not <xsd:schema>.");
 		Diagnostic eltDiagnostic = d(1, 1, 8, XMLSchemaErrorCode.cvc_elt_1_a);
-		eltDiagnostic.setMessage("cvc-elt.1.a: Cannot find the declaration of element 'invoice'.");
+		eltDiagnostic.setMessage("Cannot find the declaration of element 'invoice'.");
 		testDiagnosticsFor(xml, missingSchema, eltDiagnostic);
 
 		XMLAssert.testCodeActionsFor(xml, missingSchema);
@@ -1249,7 +1249,7 @@ public class XMLSchemaDiagnosticsTest extends AbstractCacheBasedTest {
 		diagnostic.getRelatedInformation().add(new DiagnosticRelatedInformation(l(xsdFileURI, r(1, 1, 1, 54)), ""));
 
 		Diagnostic diagnosticBasedOnXSD = new Diagnostic(r(0, 1, 0, 4),
-				"cvc-elt.1.a: Cannot find the declaration of element 'foo'.", DiagnosticSeverity.Error, "xml",
+				"Cannot find the declaration of element 'foo'.", DiagnosticSeverity.Error, "xml",
 				XMLSchemaErrorCode.cvc_elt_1_a.getCode());
 
 		XMLLanguageService xmlLanguageService = new XMLLanguageService();
@@ -1283,11 +1283,11 @@ public class XMLSchemaDiagnosticsTest extends AbstractCacheBasedTest {
 		diagnostic.getRelatedInformation().add(new DiagnosticRelatedInformation(l(xsdFileURI, r(1, 1, 4, 29)), ""));
 
 		Diagnostic diagnosticBasedOnXSD1 = new Diagnostic(r(1, 8, 1, 20),
-				"TargetNamespace.1: Expecting namespace 'http://foo', but the target namespace of the schema document is 'xs:element name=\"foo\">'.",
+				"Expecting namespace 'http://foo', but the target namespace of the schema document is 'xs:element name=\"foo\">'.",
 				DiagnosticSeverity.Error, "xml", XMLSchemaErrorCode.TargetNamespace_1.getCode());
 
 		Diagnostic diagnosticBasedOnXSD2 = new Diagnostic(r(0, 1, 0, 4),
-				"cvc-elt.1.a: Cannot find the declaration of element 'foo'.", DiagnosticSeverity.Error, "xml",
+				"Cannot find the declaration of element 'foo'.", DiagnosticSeverity.Error, "xml",
 				XMLSchemaErrorCode.cvc_elt_1_a.getCode());
 
 		XMLLanguageService xmlLanguageService = new XMLLanguageService();
@@ -1336,9 +1336,9 @@ public class XMLSchemaDiagnosticsTest extends AbstractCacheBasedTest {
 		// always
 		testDiagnosticsFor(xml,
 				d(1, 1, 1, 20, XMLSchemaErrorCode.cvc_elt_1_a,
-						"cvc-elt.1.a: Cannot find the declaration of element 'setup:Configuration'."), //
+						"Cannot find the declaration of element 'setup:Configuration'."), //
 				d(11, 67, 11, 67, XMLSchemaErrorCode.cvc_elt_4_2,
-						"cvc-elt.4.2: Cannot resolve 'setup.p2:P2Task' to a type definition for element 'setupTask'."));
+						"Cannot resolve 'setup.p2:P2Task' to a type definition for element 'setupTask'."));
 
 		// on schema valid
 		ContentModelSettings settings = XMLAssert.getContentModelSettings(true, SchemaEnabled.onValidSchema);

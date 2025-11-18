@@ -65,7 +65,7 @@ public class XMLValidationExternalResourcesBasedOnXSDTest extends AbstractCacheB
 
 		// Test diagnostics
 		XMLAssert.testPublishDiagnosticsFor(xml, fileURI, validation, ls, pd(fileURI, d, //
-				new Diagnostic(r(0, 1, 0, 13), "cvc-elt.1.a: Cannot find the declaration of element 'root-element'.",
+				new Diagnostic(r(0, 1, 0, 13), "Cannot find the declaration of element 'root-element'.",
 						DiagnosticSeverity.Error, "xml", XMLSchemaErrorCode.cvc_elt_1_a.getCode())));
 
 		// Test code action
@@ -139,7 +139,7 @@ public class XMLValidationExternalResourcesBasedOnXSDTest extends AbstractCacheB
 
 		// Test diagnostics
 		XMLAssert.testPublishDiagnosticsFor(xml, fileURI, validation, ls, pd(fileURI, d, //
-				new Diagnostic(r(0, 1, 0, 13), "cvc-elt.1.a: Cannot find the declaration of element 'root-element'.",
+				new Diagnostic(r(0, 1, 0, 13), "Cannot find the declaration of element 'root-element'.",
 						DiagnosticSeverity.Error, "xml", XMLSchemaErrorCode.cvc_elt_1_a.getCode())));
 
 		// Test code action

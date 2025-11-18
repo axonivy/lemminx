@@ -128,6 +128,9 @@ public abstract class AbstractLSPErrorReporter extends XMLErrorReporter {
 		String message;
 		if (messageFormatter != null) {
 			message = messageFormatter.formatMessage(fLocale, key, arguments);
+			if(message.startsWith(key)){
+				message = message.replaceFirst(key+": ", "");
+			}
 		} else {
 			StringBuilder str = new StringBuilder();
 			str.append(domain);
