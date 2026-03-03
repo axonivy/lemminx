@@ -44,7 +44,7 @@ public class TelemetryManager {
 	public TelemetryManager(LanguageClient languageClient) {
 		this.languageClient = languageClient;
 		this.telemetryCache = new TelemetryCache();
-		this.executor = Executors.newSingleThreadScheduledExecutor();
+		this.executor = Executors.newSingleThreadScheduledExecutor(Thread.ofVirtual().factory());
 	}
 
 	public boolean isEnabled() {
@@ -92,4 +92,7 @@ public class TelemetryManager {
 		}
 	}
 
+	public void shutdown() {
+		executor.shutdownNow();
+	}
 }
