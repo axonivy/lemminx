@@ -106,7 +106,7 @@ public class XMLLanguageServer implements ProcessLanguageServer, XMLLanguageServ
 		xmlLanguageService.setValidationService(this);
 		xmlLanguageService.setProgressSupport(this);
 
-		delayer = Executors.newScheduledThreadPool(1);
+		delayer = Executors.newScheduledThreadPool(1, Thread.ofVirtual().factory());
 	}
 
 	@Override

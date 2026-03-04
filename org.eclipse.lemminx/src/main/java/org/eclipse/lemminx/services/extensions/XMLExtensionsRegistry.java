@@ -307,6 +307,7 @@ public class XMLExtensionsRegistry implements IComponentProvider {
 		List<IXMLExtension> extensionReferences = new ArrayList<>();
 		extensions.forEach(extensionReferences::add);
 		extensionReferences.forEach(this::unregisterExtension);
+		telemetryManager.shutdown();
 	}
 
 	public void registerCompletionParticipant(ICompletionParticipant completionParticipant) {
