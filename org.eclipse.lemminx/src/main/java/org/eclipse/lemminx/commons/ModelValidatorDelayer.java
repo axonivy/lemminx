@@ -39,7 +39,7 @@ public class ModelValidatorDelayer<T> {
 	private final long validationDelayMs;
 
 	public ModelValidatorDelayer(Consumer<ModelTextDocument<T>> validator) {
-		this(Executors.newScheduledThreadPool(2, Thread.ofVirtual().factory()), validator, DEFAULT_VALIDATION_DELAY_MS);
+		this(Executors.newScheduledThreadPool(0, Thread.ofVirtual().factory()), validator, DEFAULT_VALIDATION_DELAY_MS);
 	}
 
 	public ModelValidatorDelayer(ScheduledExecutorService executorService, Consumer<ModelTextDocument<T>> validator,
