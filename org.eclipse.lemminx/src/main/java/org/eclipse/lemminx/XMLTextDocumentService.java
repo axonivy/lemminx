@@ -827,4 +827,8 @@ public class XMLTextDocumentService implements TextDocumentService {
 		}
 		return this.limitExceededWarner;
 	}
+
+	public void shutdown() {
+		xmlValidatorDelayer.shutdown();
+	}
 }

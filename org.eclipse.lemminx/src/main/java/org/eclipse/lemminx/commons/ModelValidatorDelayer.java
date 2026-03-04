@@ -83,4 +83,8 @@ public class ModelValidatorDelayer<T> {
 			}
 		}
 	}
+
+	public void shutdown() {
+		executorService.shutdown();
+	}
 }
