@@ -106,7 +106,7 @@ public class XMLLanguageServer implements ProcessLanguageServer, XMLLanguageServ
 		xmlLanguageService.setValidationService(this);
 		xmlLanguageService.setProgressSupport(this);
 
-		delayer = Executors.newScheduledThreadPool(1);
+		delayer = Executors.newScheduledThreadPool(1, Thread.ofVirtual().factory());
 	}
 
 	@Override
@@ -242,6 +242,11 @@ public class XMLLanguageServer implements ProcessLanguageServer, XMLLanguageServ
 		if (capabilityManager.getClientCapabilities().shouldLanguageServerExitOnShutdown()) {
 			delayer.schedule(() -> exit(0), 1, TimeUnit.SECONDS);
 		}
+		else {
+			delayer.shutdown();
+		}
+		getTelemetryManager().shutdown();
+		xmlTextDocumentService.shutdown();
 		return CompletableFuture.completedFuture(null);
 	}
 
