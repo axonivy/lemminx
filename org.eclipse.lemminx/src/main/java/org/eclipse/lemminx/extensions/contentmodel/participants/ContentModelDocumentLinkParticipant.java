@@ -28,7 +28,6 @@ import org.eclipse.lemminx.dom.SchemaLocationHint;
 import org.eclipse.lemminx.dom.XMLModel;
 import org.eclipse.lemminx.services.extensions.IDocumentLinkParticipant;
 import org.eclipse.lemminx.uriresolver.URIResolverExtensionManager;
-import org.eclipse.lemminx.utils.DOMUtils;
 import org.eclipse.lsp4j.DocumentLink;
 import org.w3c.dom.NamedNodeMap;
 
@@ -65,7 +64,7 @@ public class ContentModelDocumentLinkParticipant implements IDocumentLinkPartici
 			if (location != null) {
 				try {
 					DOMRange systemIdRange = docType.getSystemIdNode();
-					if (DOMUtils.isNonEmptyRange(systemIdRange, true)) {
+					if (systemIdRange != null) {
 						links.add(createDocumentLink(systemIdRange, location, true));
 					}
 				} catch (BadLocationException e) {
@@ -82,7 +81,7 @@ public class ContentModelDocumentLinkParticipant implements IDocumentLinkPartici
 				if (location != null) {
 					try {
 						DOMRange systemIdRange = entity.getSystemIdNode();
-						if (DOMUtils.isNonEmptyRange(systemIdRange, true)) {
+						if (systemIdRange != null) {
 							links.add(createDocumentLink(systemIdRange, location, true));
 						}
 					} catch (BadLocationException e) {
@@ -99,7 +98,7 @@ public class ContentModelDocumentLinkParticipant implements IDocumentLinkPartici
 			if (location != null) {
 				try {
 					DOMRange hrefRange = xmlModel.getHrefNode();
-					if (DOMUtils.isNonEmptyRange(hrefRange, true)) {
+					if (hrefRange != null) {
 						links.add(createDocumentLink(hrefRange, location, true));
 					}
 				} catch (BadLocationException e) {
@@ -116,7 +115,7 @@ public class ContentModelDocumentLinkParticipant implements IDocumentLinkPartici
 						noNamespaceSchemaLocation.getLocation());
 				if (location != null) {
 					DOMRange attrValue = noNamespaceSchemaLocation.getAttr().getNodeAttrValue();
-					if (DOMUtils.isNonEmptyRange(attrValue, true)) {
+					if (attrValue != null) {
 						links.add(createDocumentLink(attrValue, location, true));
 					}
 				}
@@ -133,7 +132,7 @@ public class ContentModelDocumentLinkParticipant implements IDocumentLinkPartici
 				String location;
 				for (SchemaLocationHint schemaLocationHint : schemaLocationHints) {
 					location = resolverManager.resolve(document.getDocumentURI(), null, schemaLocationHint.getHint());
-					if (DOMUtils.isNonEmptyRange(schemaLocationHint, false)) {
+					if (location != null) {
 						links.add(createDocumentLink(schemaLocationHint, location, false));
 					}
 				}

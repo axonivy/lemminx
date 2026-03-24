@@ -21,7 +21,6 @@ import org.eclipse.lemminx.dom.DOMDocument;
 import org.eclipse.lemminx.dom.DOMElement;
 import org.eclipse.lemminx.dom.DOMNode;
 import org.eclipse.lemminx.dom.DOMParser;
-import org.eclipse.lemminx.dom.DOMRange;
 import org.eclipse.lemminx.uriresolver.URIResolverExtensionManager;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXNotRecognizedException;
@@ -287,19 +286,5 @@ public class DOMUtils {
 		inputSource.setCharacterStream(new StringReader(content));
 		inputSource.setSystemId(uri);
 		return inputSource;
-	}
-
-	/**
-	 * Returns false if the range is zero-length, and true otherwise.
-	 * 
-	 * @param range the range to check
-	 * @param adjust true if the leading and trailing quotes should be removed before checking if it's zero-length, false otherwise
-	 * @return false if the range is zero-length, and true otherwise
-	 */
-	public static boolean isNonEmptyRange(DOMRange range, boolean adjust) {
-		if (range == null) {
-			return false;
-		}
-		return range.getEnd() - range.getStart() > (adjust ? 2 : 0);
 	}
 }
