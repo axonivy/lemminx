@@ -26,8 +26,7 @@ pipeline {
         }
         archiveArtifacts 'org.eclipse.lemminx/target/*.jar'
         withChecks('Maven Issues') {
-          recordIssues skipPublishingChecks: true, 
-          tools: [mavenConsole()], 
+          recordIssues tools: [mavenConsole()], 
           qualityGates: [[threshold: 1, type: 'TOTAL']], 
           filters: [excludeMessage('.*Skipped.*'), excludeMessage('.*Unknown keyword (meta:enum|deprecated).*')]
         }
