@@ -246,7 +246,7 @@
 						<plugin>
 							<groupId>org.eclipse.tycho</groupId>
 							<artifactId>tycho-eclipse-plugin</artifactId>
-							<version>4.0.13</version>
+							<version>5.0.2</version>
 							<executions>
 								<execution>
 									<id>generate-p2-site</id>
