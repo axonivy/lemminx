@@ -111,6 +111,8 @@ public class DOMParserTest {
 		assertEquals(expected, textContent);
 	}
 
+
+
 	@Test
 	public void testNestedElements() {
 		DOMNode head = createElement("head", 6, 12, 19, true);
@@ -121,6 +123,7 @@ public class DOMParserTest {
 
 		assertDocument("<html><head></head><body></body></html>", html);
 	}
+
 
 	@Test
 	public void testNestedNestedElements() {
@@ -673,9 +676,9 @@ public class DOMParserTest {
 				"]>";
 
 		DOMNode doctype = createDoctypeNode(0, 86, 10, 14, null, null, null, null, null, null, 15, 85);
-		doctype.setClosed(true);
+		doctype.closed = true;
 		DOMNode entity = createEntityDecl(19, 83, 28, 34, null, null, 35, 41, null, null, 42, 82, null, null);
-		entity.setClosed(true);
+		entity.closed = true;
 		doctype.addChild(entity);
 
 		DOMDocument document = DOMParser.getInstance().parse(xml, "", null);
@@ -691,13 +694,13 @@ public class DOMParserTest {
 				"  <!ATTLIST payment type CDATA \"check\">\n" + "] >";
 
 		DOMNode doctype = createDoctypeNode(0, 155, 10, 14, null, null, null, null, null, null, 15, 153);
-		doctype.setClosed(true);
+		doctype.closed = true;
 		DOMNode entity = createEntityDecl(19, 83, 28, 34, null, null, 35, 41, null, null, 42, 82, null, null);
-		entity.setClosed(true);
+		entity.closed = true;
 		DOMNode element = createElementDecl(86, 111, 96, 100, null, null, 101, 110, null, null);
-		element.setClosed(true);
+		element.closed = true;
 		DOMNode attlist = createAttlistDecl(114, 151, 124, 131, 132, 136, 137, 142, 143, 150, null, null);
-		attlist.setClosed(true);
+		attlist.closed = true;
 
 		doctype.addChild(entity);
 		doctype.addChild(element);
@@ -715,13 +718,13 @@ public class DOMParserTest {
 				"<!ATTLIST payment type CDATA \"check\">";
 
 		DOMNode doctype = createDoctypeNode(0, 128, null, null, null, null, null, null, null, null, null, null);
-		doctype.setClosed(true);
+		doctype.closed = true;
 		DOMNode entity = createEntityDecl(0, 64, 9, 15, null, null, 16, 22, null, null, 23, 63, null, null);
-		entity.setClosed(true);
+		entity.closed = true;
 		DOMNode element = createElementDecl(65, 90, 75, 79, null, null, 80, 89, null, null);
-		element.setClosed(true);
+		element.closed = true;
 		DOMNode attlist = createAttlistDecl(91, 128, 101, 108, 109, 113, 114, 119, 120, 127, null, null);
-		attlist.setClosed(true);
+		attlist.closed = true;
 
 		doctype.addChild(entity);
 		doctype.addChild(element);
@@ -738,11 +741,11 @@ public class DOMParserTest {
 				"<!ELEMENT auth-constraint (description?, role-name*)>";
 
 		DOMNode doctype = createDoctypeNode(0, 95, null, null, null, null, null, null, null, null, null, null);
-		doctype.setClosed(true);
+		doctype.closed = true;
 		DOMNode attlist = createAttlistDecl(0, 41, 10, 25, 26, 28, 29, 31, 32, 40, null, null);
-		attlist.setClosed(true);
+		attlist.closed = true;
 		DOMNode element = createElementDecl(42, 95, 52, 67, null, null, 68, 94, null, null);
-		element.setClosed(true);
+		element.closed = true;
 
 		doctype.addChild(attlist);
 		doctype.addChild(element);
@@ -759,14 +762,13 @@ public class DOMParserTest {
 				"<!ATTLIST payment type \"check\">";
 
 		DOMNode doctype = createDoctypeNode(0, 81, null, null, null, null, null, null, null, null, null, null);
-		doctype.setClosed(true);
+		doctype.closed = true;
 		DOMNode entity = createEntityDecl(0, 24, 9, 15, null, null, 16, 22, null, null, null, null, null, null);
-		entity.setClosed(true);
+		entity.closed = true;
 		DOMNode element = createElementDecl(25, 50, 35, 39, null, null, 40, 49, null, null);
-		element.setClosed(false);
-		;
+		element.closed = false;
 		DOMNode attlist = createAttlistDecl(50, 81, 60, 67, 68, 72, null, null, null, null, 73, 80);
-		attlist.setClosed(true);
+		attlist.closed = true;
 
 		doctype.addChild(entity);
 		doctype.addChild(element);
@@ -784,15 +786,13 @@ public class DOMParserTest {
 				"<!ATTLIST payment type \"check\">";
 
 		DOMNode doctype = createDoctypeNode(0, 81, null, null, null, null, null, null, null, null, null, null);
-		doctype.setClosed(true);
+		doctype.closed = true;
 		DOMNode entity = createEntityDecl(0, 25, 9, 15, null, null, 16, 22, null, null, null, null, null, null);
-		entity.setClosed(false);
-		;
+		entity.closed = false;
 		DOMNode element = createElementDecl(25, 50, 35, 39, null, null, 40, 49, null, null);
-		element.setClosed(false);
-		;
+		element.closed = false;
 		DOMNode attlist = createAttlistDecl(50, 81, 60, 67, 68, 72, null, null, null, null, 73, 80);
-		attlist.setClosed(true);
+		attlist.closed = true;
 
 		doctype.addChild(entity);
 		doctype.addChild(element);
@@ -809,12 +809,11 @@ public class DOMParserTest {
 				"<!ELEMENT name >";
 
 		DOMNode doctype = createDoctypeNode(0, 32, null, null, null, null, null, null, null, null, null, null);
-		doctype.setClosed(true);
+		doctype.closed = true;
 		DOMNode attlist = createAttlistDecl(0, 16, 10, 14, null, null, null, null, null, null, null, null);
-		attlist.setClosed(false);
-		;
+		attlist.closed = false;
 		DOMNode element = createElementDecl(16, 32, 26, 30, null, null, null, null, null, null);
-		element.setClosed(true);
+		element.closed = true;
 
 		doctype.addChild(attlist);
 		doctype.addChild(element);
@@ -829,10 +828,10 @@ public class DOMParserTest {
 		String dtd = "<!ELEMENT name (aa,bb >";
 
 		DOMNode doctype = createDoctypeNode(0, 23, null, null, null, null, null, null, null, null, null, null);
-		doctype.setClosed(true);
+		doctype.closed = true;
 
 		DOMNode element = createElementDecl(0, 23, 10, 14, null, null, 15, 22, null, null);
-		element.setClosed(true);
+		element.closed = true;
 
 		doctype.addChild(element);
 
@@ -848,11 +847,11 @@ public class DOMParserTest {
 				"    from CDATA #REQUIRED>";
 
 		DOMNode doctype = createDoctypeNode(0, 70, null, null, null, null, null, null, null, null, null, null);
-		doctype.setClosed(true);
+		doctype.closed = true;
 		DTDAttlistDecl attlist = createAttlistDecl(0, 70, 10, 21, 26, 28, 29, 34, 35, 44, null, null);
-		attlist.setClosed(true);
+		attlist.closed = true;
 		DTDAttlistDecl attlistInternal = createAttlistDecl(-1, -1, null, null, 49, 53, 54, 59, 60, 69, null, null);
-		attlistInternal.setClosed(true);
+		attlistInternal.closed = true;
 
 		doctype.addChild(attlist);
 		attlist.addAdditionalAttDecl(attlistInternal);
@@ -868,13 +867,13 @@ public class DOMParserTest {
 				"<!NOTATION gif SYSTEM \"image/gif\">";
 
 		DOMNode doctype = createDoctypeNode(0, 112, null, null, null, null, null, null, null, null, null, null);
-		doctype.setClosed(true);
+		doctype.closed = true;
 		DTDNotationDecl notation1 = createNotationDecl(0, 32, 11, 14, 15, 21, 22, 31, null, null, null, null);
-		notation1.setClosed(true);
+		notation1.closed = true;
 		DTDNotationDecl notation2 = createNotationDecl(33, 77, 44, 47, 48, 54, 55, 64, 65, 76, null, null);
-		notation2.setClosed(true);
+		notation2.closed = true;
 		DTDNotationDecl notation3 = createNotationDecl(78, 112, 89, 92, 93, 99, null, null, 100, 111, null, null);
-		notation3.setClosed(true);
+		notation3.closed = true;
 
 		doctype.addChild(notation1);
 		doctype.addChild(notation2);
@@ -890,12 +889,11 @@ public class DOMParserTest {
 				"<!NOTATION png PUBLIC \"JPG 1.0\" \"image/gif\">";
 
 		DOMNode doctype = createDoctypeNode(0, 77, null, null, null, null, null, null, null, null, null, null);
-		doctype.setClosed(true);
+		doctype.closed = true;
 		DTDNotationDecl notation1 = createNotationDecl(0, 33, 11, 14, 15, 21, 22, 32, null, null, null, null);
-		notation1.setClosed(false);
-		;
+		notation1.closed = false;
 		DTDNotationDecl notation2 = createNotationDecl(33, 77, 44, 47, 48, 54, 55, 64, 65, 76, null, null);
-		notation2.setClosed(true);
+		notation2.closed = true;
 
 		doctype.addChild(notation1);
 		doctype.addChild(notation2);
@@ -910,12 +908,11 @@ public class DOMParserTest {
 				"<!NOTATION png PUBLIC \"JPG 1.0\" \"image/gif\" BAD>";
 
 		DOMNode doctype = createDoctypeNode(0, 81, null, null, null, null, null, null, null, null, null, null);
-		doctype.setClosed(true);
+		doctype.closed = true;
 		DTDNotationDecl notation1 = createNotationDecl(0, 33, 11, 14, 15, 21, 22, 32, null, null, null, null);
-		notation1.setClosed(false);
-		;
+		notation1.closed = false;
 		DTDNotationDecl notation2 = createNotationDecl(33, 81, 44, 47, 48, 54, 55, 64, 65, 76, 77, 80);
-		notation2.setClosed(true);
+		notation2.closed = true;
 
 		doctype.addChild(notation1);
 		doctype.addChild(notation2);
@@ -929,7 +926,7 @@ public class DOMParserTest {
 		String dtd = "<!DOTATION png PUBLIC \"JPG 1.0\" \"image/gif\" BAD>";
 
 		DOMNode doctype = createDoctypeNode(0, 48, null, null, null, null, null, null, null, null, null, null);
-		doctype.setClosed(true);
+		doctype.closed = true;
 		DOMText text = createTextNode("<!DOTATION png PUBLIC \"JPG 1.0\" \"image/gif\" BAD>", 0, 48, true);
 
 		doctype.addChild(text);
@@ -943,10 +940,10 @@ public class DOMParserTest {
 		String dtd = "<!-- c --> <!ELEMENT png PUBLIC \"JPG 1.0\" \"image/gif\" BAD>";
 
 		DOMNode doctype = createDoctypeNode(0, 58, null, null, null, null, null, null, null, null, null, null);
-		doctype.setClosed(true);
+		doctype.closed = true;
 		DOMComment comment = createCommentNode(" c ", 0, 10, true);
 		DTDElementDecl element = createElementDecl(11, 58, 21, 24, null, null, null, null, 25, 57);
-		element.setClosed(true);
+		element.closed = true;
 		doctype.addChild(comment);
 		doctype.addChild(element);
 
@@ -1223,7 +1220,7 @@ public class DOMParserTest {
 			((DOMProcessingInstruction) n).target = tag;
 			((DOMProcessingInstruction) n).endTagOpenOffset = endTagStart != null ? endTagStart : DOMNode.NULL_VALUE;
 		}
-		n.setClosed(closed);
+		n.closed = closed;
 	}
 
 	private static void assertDocument(String input, DOMNode expectedNode) {
