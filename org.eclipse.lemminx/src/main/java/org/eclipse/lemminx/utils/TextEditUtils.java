@@ -110,28 +110,23 @@ public class TextEditUtils {
 			}
 			return diff;
 		});
-		
-		// Use StringBuilder for better memory efficiency, especially for large files
-		// Pre-allocate capacity based on original text size to minimize reallocations
-		StringBuilder result = new StringBuilder(text.length());
 		int lastModifiedOffset = 0;
-		
+		List<String> spans = new ArrayList<>();
 		for (TextEdit e : edits) {
 			int startOffset = document.offsetAt(e.getRange().getStart());
 			if (startOffset < lastModifiedOffset) {
 				throw new Error("Overlapping edit");
 			} else if (startOffset > lastModifiedOffset) {
-				// Append unchanged text between edits
-				result.append(text, lastModifiedOffset, startOffset);
+				spans.add(text.substring(lastModifiedOffset, startOffset));
 			}
 			if (e.getNewText() != null) {
-				result.append(e.getNewText());
+				spans.add(e.getNewText());
 			}
 			lastModifiedOffset = document.offsetAt(e.getRange().getEnd());
 		}
-		// Append remaining text after last edit
-		result.append(text, lastModifiedOffset, text.length());
-		return result.toString();
+		spans.add(text.substring(lastModifiedOffset));
+		return spans.stream() //
+				.collect(Collectors.joining());
 	}
 
 	/**

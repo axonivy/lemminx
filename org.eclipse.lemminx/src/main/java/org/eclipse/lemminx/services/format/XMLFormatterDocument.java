@@ -64,9 +64,6 @@ public class XMLFormatterDocument {
 	private final TextDocument textDocument;
 	private final String lineDelimiter;
 	private final SharedSettings sharedSettings;
-	
-	// Reusable StringBuilder for indentation to reduce object allocation
-	private final StringBuilder indentBuilder;
 
 	private final DOMProcessingInstructionFormatter processingInstructionFormatter;
 
@@ -117,8 +114,6 @@ public class XMLFormatterDocument {
 		this.commentFormatter = new DOMCommentFormatter(this);
 		this.cDATAFormatter = new DOMCDATAFormatter(this);
 		this.formattingContext = new HashMap<>();
-		// Pre-allocate reusable StringBuilder for indentation (max reasonable indent: 100 levels * 4 spaces)
-		this.indentBuilder = new StringBuilder(400);
 	}
 
 	private static String computeLineDelimiter(TextDocument textDocument) {
@@ -143,10 +138,7 @@ public class XMLFormatterDocument {
 	}
 
 	public List<? extends TextEdit> format(DOMDocument document, int start, int end) {
-		// Pre-allocate list capacity based on document size to reduce reallocations
-		// Estimate: 1 edit per 100 characters for typical XML formatting
-		int estimatedCapacity = Math.min(textDocument.getText().length() / 100, 10000);
-		List<TextEdit> edits = new ArrayList<>(estimatedCapacity);
+		List<TextEdit> edits = new ArrayList<>();
 
 		// get initial document region
 		DOMNode currentDOMNode = getDOMNodeToFormat(document, start, end);
@@ -662,22 +654,21 @@ public class XMLFormatterDocument {
 	}
 
 	private String getIndentSpaces(int level, boolean addLineSeparator) {
-		// Reuse StringBuilder to avoid object allocation
-		indentBuilder.setLength(0);
+		StringBuilder spaces = new StringBuilder();
 		if (addLineSeparator) {
-			indentBuilder.append(lineDelimiter);
+			spaces.append(lineDelimiter);
 		}
 
 		for (int i = 0; i < level; i++) {
 			if (isInsertSpaces()) {
 				for (int j = 0; j < getTabSize(); j++) {
-					indentBuilder.append(" ");
+					spaces.append(" ");
 				}
 			} else {
-				indentBuilder.append("\t");
+				spaces.append("\t");
 			}
 		}
-		return indentBuilder.toString();
+		return spaces.toString();
 	}
 
 	/**
@@ -691,48 +682,46 @@ public class XMLFormatterDocument {
 	 *         new lines.
 	 */
 	private String getIndentSpacesWithMultiNewLines(int level, int newLineCount) {
-		// Reuse StringBuilder to avoid object allocation
-		indentBuilder.setLength(0);
+		StringBuilder spaces = new StringBuilder();
 		while (newLineCount != 0) {
-			indentBuilder.append(lineDelimiter);
+			spaces.append(lineDelimiter);
 			newLineCount--;
 		}
 
 		for (int i = 0; i < level; i++) {
 			if (isInsertSpaces()) {
 				for (int j = 0; j < getTabSize(); j++) {
-					indentBuilder.append(" ");
+					spaces.append(" ");
 				}
 			} else {
-				indentBuilder.append("\t");
+				spaces.append("\t");
 			}
 		}
-		return indentBuilder.toString();
+		return spaces.toString();
 	}
 
 	private String getIndentSpacesWithOffsetSpaces(int spaceCount, boolean addLineSeparator) {
-		// Reuse StringBuilder to avoid object allocation
-		indentBuilder.setLength(0);
+		StringBuilder spaces = new StringBuilder();
 		if (addLineSeparator) {
-			indentBuilder.append(lineDelimiter);
+			spaces.append(lineDelimiter);
 		}
 		int spaceOffset = spaceCount % getTabSize();
 
 		for (int i = 0; i < spaceCount / getTabSize(); i++) {
 			if (isInsertSpaces()) {
 				for (int j = 0; j < getTabSize(); j++) {
-					indentBuilder.append(" ");
+					spaces.append(" ");
 				}
 			} else {
-				indentBuilder.append("\t");
+				spaces.append("\t");
 			}
 		}
 
 		for (int i = 0; i < spaceOffset; i++) {
-			indentBuilder.append(" ");
+			spaces.append(" ");
 		}
 
-		return indentBuilder.toString();
+		return spaces.toString();
 	}
 
 	private void trimFinalNewlines(boolean insertFinalNewline, List<TextEdit> edits) {
