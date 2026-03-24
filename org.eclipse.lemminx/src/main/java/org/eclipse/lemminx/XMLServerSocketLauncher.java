@@ -21,7 +21,6 @@ import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.eclipse.lemminx.customservice.XMLLanguageClientAPI;
 import org.eclipse.lsp4j.jsonrpc.Launcher;
 import org.eclipse.lsp4j.jsonrpc.MessageConsumer;
 import org.eclipse.lsp4j.services.LanguageClient;
@@ -54,7 +53,7 @@ public class XMLServerSocketLauncher {
 			final OutputStream out = Channels.newOutputStream(socketChannel);
 			final ExecutorService executorService = Executors.newCachedThreadPool();
 			XMLLanguageServer languageServer = new XMLLanguageServer();
-			final Launcher<XMLLanguageClientAPI> launcher = Launcher.createIoLauncher(languageServer, XMLLanguageClientAPI.class,
+			final Launcher<LanguageClient> launcher = Launcher.createIoLauncher(languageServer, LanguageClient.class,
 					in, out, executorService, (MessageConsumer it) -> {
 						return it;
 					});
