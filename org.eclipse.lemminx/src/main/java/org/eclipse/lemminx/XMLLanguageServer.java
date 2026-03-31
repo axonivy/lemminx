@@ -22,6 +22,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -94,6 +95,20 @@ public class XMLLanguageServer implements ProcessLanguageServer, XMLLanguageServ
 	private Integer parentProcessId;
 	private XMLCapabilityManager capabilityManager;
 	private TelemetryManager telemetryManager;
+
+	public XMLLanguageServer(Function<XMLLanguageServer, XMLTextDocumentService> xmlTextDocumentServiceSupplier, Function<XMLLanguageServer, XMLWorkspaceService> xmlWorkspaceServiceSupplier) {
+		xmlTextDocumentService = xmlTextDocumentServiceSupplier.apply(this);
+		xmlWorkspaceService = xmlWorkspaceServiceSupplier.apply(this);
+
+		xmlLanguageService = new XMLLanguageService();
+		xmlLanguageService.setDocumentProvider(this);
+		xmlLanguageService.setNotificationService(this);
+		xmlLanguageService.setCommandService(xmlWorkspaceService);
+		xmlLanguageService.setValidationService(this);
+		xmlLanguageService.setProgressSupport(this);
+
+		delayer = Executors.newScheduledThreadPool(0, Thread.ofVirtual().factory());
+	}
 
 	public XMLLanguageServer() {
 		xmlTextDocumentService = new XMLTextDocumentService(this);
