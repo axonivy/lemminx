@@ -194,13 +194,14 @@ public class LSPXMLGrammarPool implements XMLGrammarPool {
 	 * @param desc2 The grammar description of the grammar to be compared to
 	 * @return True if the grammars are equal, otherwise false
 	 */
+
 	public boolean equals(XMLGrammarDescription desc1, XMLGrammarDescription desc2) {
 		String systemId1 = desc1.getExpandedSystemId();
 		String systemId2 = desc2.getExpandedSystemId();
 		if (systemId1 != null && systemId2 != null) {
 			return Objects.equal(systemId1, systemId2);
 		}
-		return false; // desc1.equals(desc2);
+		return desc1.equals(desc2);
 	}
 
 	/**
