@@ -22,6 +22,7 @@ import org.eclipse.lemminx.extensions.contentmodel.participants.XMLSchemaErrorCo
 import org.eclipse.lemminx.extensions.contentmodel.settings.ContentModelSettings;
 import org.eclipse.lemminx.services.XMLLanguageService;
 import org.eclipse.lsp4j.Diagnostic;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -33,6 +34,7 @@ import org.junit.jupiter.api.Test;
 public class XMLValidationPoolCacheTest extends BaseFileTempTest {
 
 	@Test
+	@Disabled("Disabled because we fixed a memory leak in the grammer pool and this use case here is not relevant for us. See XIVY-18914 for details")
 	public void twoNoNamespaceSchemaLocation() {
 		XMLLanguageService xmlLanguageService = new XMLLanguageService();
 
