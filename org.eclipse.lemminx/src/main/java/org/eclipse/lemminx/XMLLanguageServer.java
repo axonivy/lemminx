@@ -273,7 +273,6 @@ public class XMLLanguageServer implements ProcessLanguageServer, XMLLanguageServ
 	@Override
 	public void exit(int exitCode) {
 		delayer.shutdown();
-		System.exit(exitCode);
 	}
 
 	@Override
