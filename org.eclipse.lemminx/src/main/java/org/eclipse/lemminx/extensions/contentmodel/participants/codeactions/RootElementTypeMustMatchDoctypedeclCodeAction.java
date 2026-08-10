@@ -23,8 +23,10 @@ import org.eclipse.lemminx.utils.XMLPositionUtility;
 import org.eclipse.lsp4j.CodeAction;
 import org.eclipse.lsp4j.Diagnostic;
 import org.eclipse.lsp4j.Range;
+import org.eclipse.lsp4j.SnippetTextEdit;
 import org.eclipse.lsp4j.TextEdit;
 import org.eclipse.lsp4j.jsonrpc.CancelChecker;
+import org.eclipse.lsp4j.jsonrpc.messages.Either;
 
 /**
  * Code action for RootElementTypeMustMatchDoctypedecl
@@ -52,17 +54,17 @@ public class RootElementTypeMustMatchDoctypedeclCodeAction implements ICodeActio
 			return;
 		}
 
-		String currentRootText = getCurrentRoot(diagnostic.getMessage());
+		String currentRootText = getCurrentRoot(diagnostic.getMessage().getLeft());
 		if (currentRootText == null || !currentRootText.equals(root.getNodeName())) {
 			return;
 		}
 
-		String doctypeRootText = getDoctypeRoot(diagnostic.getMessage());
+		String doctypeRootText = getDoctypeRoot(diagnostic.getMessage().getLeft());
 		if (doctypeRootText == null) {
 			return;
 		}
 
-		List<TextEdit> replace = new ArrayList<>();
+		List<Either<TextEdit, SnippetTextEdit>> replace = new ArrayList<>();
 		addTextEdits(root, doctypeRootText, replace);
 
 		CodeAction action = CodeActionFactory.replace("Replace with '" + doctypeRootText + "'", replace,
@@ -70,11 +72,11 @@ public class RootElementTypeMustMatchDoctypedeclCodeAction implements ICodeActio
 		codeActions.add(action);
 	}
 
-	private void addTextEdits(DOMElement root, String newText, List<TextEdit> replace) {
-		replace.add(new TextEdit(XMLPositionUtility.selectStartTagName(root), newText));
+	private void addTextEdits(DOMElement root, String newText, List<Either<TextEdit, SnippetTextEdit>> replace) {
+		replace.add(Either.forLeft(new TextEdit(XMLPositionUtility.selectStartTagName(root), newText)));
 
 		if (root.isClosed() && !root.isSelfClosed()) {
-			replace.add(new TextEdit(XMLPositionUtility.selectEndTagName(root), newText));
+			replace.add(Either.forLeft(new TextEdit(XMLPositionUtility.selectEndTagName(root), newText)));
 		}
 	}
 

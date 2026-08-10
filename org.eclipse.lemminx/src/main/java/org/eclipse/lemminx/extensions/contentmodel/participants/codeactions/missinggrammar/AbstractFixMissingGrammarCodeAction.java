@@ -113,7 +113,7 @@ public abstract class AbstractFixMissingGrammarCodeAction implements ICodeAction
 	 * the root element of the document is not <xsd:schema>.
 	 */
 	private String getPathFromDiagnostic(Diagnostic diagnostic) {
-		String message = diagnostic.getMessage();
+		String message = diagnostic.getMessage().getLeft();
 		int startIndex = message.indexOf(FILE_SCHEME);
 		if (startIndex != -1) {
 			int endIndex = message.lastIndexOf("'");

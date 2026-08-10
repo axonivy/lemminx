@@ -35,6 +35,7 @@ import org.eclipse.lsp4j.Location;
 import org.eclipse.lsp4j.Position;
 import org.eclipse.lsp4j.PrepareRenameResult;
 import org.eclipse.lsp4j.Range;
+import org.eclipse.lsp4j.SnippetTextEdit;
 import org.eclipse.lsp4j.TextDocumentEdit;
 import org.eclipse.lsp4j.TextEdit;
 import org.eclipse.lsp4j.jsonrpc.CancelChecker;
@@ -96,10 +97,10 @@ public class XSDRenameParticipant implements IRenameParticipant {
 		return locations;
 	}
 
-	private List<TextEdit> renameAttributeValueTextEdits(DOMDocument document, DOMAttr attribute, String newText,
+	private List<Either<TextEdit, SnippetTextEdit>> renameAttributeValueTextEdits(DOMDocument document, DOMAttr attribute, String newText,
 			List<Location> locations) {
 		DOMRange attrValue = attribute.getNodeAttrValue();
-		List<TextEdit> textEdits = new ArrayList<>();
+		List<Either<TextEdit, SnippetTextEdit>> textEdits = new ArrayList<>();
 
 		int valueStart = attrValue.getStart();
 		int valueEnd = attrValue.getEnd();
@@ -108,7 +109,7 @@ public class XSDRenameParticipant implements IRenameParticipant {
 		// make range not cover " on both ends
 		reduceRangeFromBothEnds(range, 1);
 
-		textEdits.add(new TextEdit(range, newText));
+		textEdits.add(Either.forLeft(new TextEdit(range, newText)));
 
 		for (Location location : locations) {
 			Range textEditRange = location.getRange();
@@ -127,7 +128,7 @@ public class XSDRenameParticipant implements IRenameParticipant {
 				increaseStartRange(textEditRange, colonIndex + 1);
 			}
 
-			textEdits.add(new TextEdit(textEditRange, newText));
+			textEdits.add(Either.forLeft(new TextEdit(textEditRange, newText)));
 		}
 
 		return textEdits;

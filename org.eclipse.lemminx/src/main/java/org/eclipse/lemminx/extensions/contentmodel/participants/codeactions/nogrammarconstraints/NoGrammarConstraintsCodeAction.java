@@ -388,9 +388,9 @@ public class NoGrammarConstraintsCodeAction implements ICodeActionParticipant {
 				+ (documentElement != null ? 1 + documentElement.getTagName().length() : 0);
 		Position xmlNamespacePosition = document.positionAt(afterTagOffset);
 
-		return CodeActionFactory.insertEdits(document.getTextDocument(), //
-				Arrays.asList(CodeActionFactory.insertEdit(xmlModelInsertText, xmlModelPosition), //
-						CodeActionFactory.insertEdit(xmlNamespaceInsertText.toString(), xmlNamespacePosition)));
+		return CodeActionFactory.insertEdits(document.getTextDocument(),
+				Arrays.asList(Either.forLeft(CodeActionFactory.insertEdit(xmlModelInsertText, xmlModelPosition)),
+						Either.forLeft(CodeActionFactory.insertEdit(xmlNamespaceInsertText.toString(), xmlNamespacePosition))));
 	}
 
 	public static TextDocumentEdit createDocTypeEdit(String dtdFileName, DOMDocument document,

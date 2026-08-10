@@ -20,9 +20,7 @@ import static org.eclipse.lemminx.utils.XMLPositionUtility.getTagNameRange;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CancellationException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,9 +38,11 @@ import org.eclipse.lemminx.services.extensions.XMLExtensionsRegistry;
 import org.eclipse.lemminx.services.extensions.rename.IRenameParticipant;
 import org.eclipse.lsp4j.Position;
 import org.eclipse.lsp4j.Range;
+import org.eclipse.lsp4j.SnippetTextEdit;
 import org.eclipse.lsp4j.TextEdit;
 import org.eclipse.lsp4j.WorkspaceEdit;
 import org.eclipse.lsp4j.jsonrpc.CancelChecker;
+import org.eclipse.lsp4j.jsonrpc.messages.Either;
 
 /**
  * Handle all rename requests
@@ -103,7 +103,7 @@ class XMLRename {
 		return createWorkspaceEdit(renameResponse.getDocumentChanges());
 	}
 
-	private List<TextEdit> getRenameTextEdits(DOMDocument xmlDocument, DOMNode node, Position position,
+	private List<Either<TextEdit, SnippetTextEdit>> getRenameTextEdits(DOMDocument xmlDocument, DOMNode node, Position position,
 			String newText) {
 		if (node == null || node.isText()) {
 			return Collections.emptyList();
@@ -143,7 +143,7 @@ class XMLRename {
 		return (DOMElement) node;
 	}
 
-	private List<TextEdit> getCDATARenameTextEdits(DOMDocument xmlDocument, DOMElement element, Position position,
+	private List<Either<TextEdit, SnippetTextEdit>> getCDATARenameTextEdits(DOMDocument xmlDocument, DOMElement element, Position position,
 			String newText) {
 		Position startPos = null;
 		Position endPos = null;
@@ -181,7 +181,7 @@ class XMLRename {
 		return doesTagCoverPosition(startTagRange, endTagRange, position);
 	}
 
-	private List<TextEdit> getTagNameRenameTextEdits(DOMDocument xmlDocument, DOMElement element, Position position,
+	private List<Either<TextEdit, SnippetTextEdit>> getTagNameRenameTextEdits(DOMDocument xmlDocument, DOMElement element, Position position,
 			String newText) {
 
 		Range startTagRange = getTagNameRange(TokenType.StartTag, element.getStart(), xmlDocument);
@@ -229,7 +229,7 @@ class XMLRename {
 			// Add text edits
 			if (newText.contains(":")) {
 				String[] tagParts = newText.split(":", 2);
-				List<TextEdit> tagTextEdits = new ArrayList<TextEdit>();
+				List<Either<TextEdit, SnippetTextEdit>> tagTextEdits = new ArrayList<Either<TextEdit, SnippetTextEdit>>();
 				// Tag prefix rename
 				if (!prefix.equals(tagParts[0])) {
 					tagTextEdits.addAll(renameElementNamespace(xmlDocument, element, prefix.length(), tagParts[0]));
@@ -250,7 +250,7 @@ class XMLRename {
 		return getRenameList(startTagRange, endTagRange, newText);
 	}
 
-	private List<TextEdit> getXmlnsAttrRenameTextEdits(DOMDocument xmlDocument, DOMElement element, Position position,
+	private List<Either<TextEdit, SnippetTextEdit>> getXmlnsAttrRenameTextEdits(DOMDocument xmlDocument, DOMElement element, Position position,
 			String newText) {
 		List<DOMAttr> attributes = element.getAttributeNodes();
 
@@ -290,13 +290,13 @@ class XMLRename {
 	 * @param newText
 	 * @return
 	 */
-	private static List<TextEdit> getRenameList(Range startTagRange, Range endTagRange, String newText) {
-		List<TextEdit> result = new ArrayList<>(2);
+	private static List<Either<TextEdit, SnippetTextEdit>> getRenameList(Range startTagRange, Range endTagRange, String newText) {
+		List<Either<TextEdit, SnippetTextEdit>> result = new ArrayList<>(2);
 		if (startTagRange != null) {
-			result.add(new TextEdit(startTagRange, newText));
+			result.add(Either.forLeft(new TextEdit(startTagRange, newText)));
 		}
 		if (endTagRange != null) {
-			result.add(new TextEdit(endTagRange, newText));
+			result.add(Either.forLeft(new TextEdit(endTagRange, newText)));
 		}
 		return result;
 	}
@@ -311,11 +311,11 @@ class XMLRename {
 	 * @param rootAttr
 	 * @return
 	 */
-	private static List<TextEdit> renameAllNamespaceOccurrences(DOMDocument document, String oldNamespace,
+	private static List<Either<TextEdit, SnippetTextEdit>> renameAllNamespaceOccurrences(DOMDocument document, String oldNamespace,
 			String newNamespace, @Nullable DOMAttr rootAttr) {
 		DOMElement rootElement = document.getDocumentElement();
 
-		List<TextEdit> edits = new ArrayList<>();
+		List<Either<TextEdit, SnippetTextEdit>> edits = new ArrayList<>();
 
 		// Renames the xmlns:NAME_SPACE attribute
 		if (rootAttr != null) {
@@ -328,7 +328,7 @@ class XMLRename {
 
 			if (start != null) {
 				Position end = new Position(start.getLine(), start.getCharacter() + oldNamespace.length());
-				edits.add(new TextEdit(new Range(start, end), newNamespace));
+				edits.add(Either.forLeft(new TextEdit(new Range(start, end), newNamespace)));
 			}
 		}
 
@@ -348,7 +348,7 @@ class XMLRename {
 	 * @param newNamespace
 	 * @return
 	 */
-	private static List<TextEdit> renameElementsNamespace(DOMDocument document, List<TextEdit> edits,
+	private static List<Either<TextEdit, SnippetTextEdit>> renameElementsNamespace(DOMDocument document, List<Either<TextEdit, SnippetTextEdit>> edits,
 			List<DOMNode> elements, String oldNamespace, String newNamespace) {
 		int oldNamespaceLength = oldNamespace.length();
 		for (DOMNode node : elements) {
@@ -373,16 +373,16 @@ class XMLRename {
 	/**
 	 * Will rename the namespace of a given element
 	 */
-	private static List<TextEdit> renameElementNamespace(DOMDocument document, DOMElement element,
+	private static List<Either<TextEdit, SnippetTextEdit>> renameElementNamespace(DOMDocument document, DOMElement element,
 			int oldNamespaceLength, String newNamespace) {
-		List<TextEdit> edits = new ArrayList<>();
+		List<Either<TextEdit, SnippetTextEdit>> edits = new ArrayList<>();
 		Range[] ranges = createNamespaceRange(document, element, oldNamespaceLength);
 		if (ranges == null) {
 			return edits;
 		}
 		for (Range r : ranges) {
 			if (r != null) {
-				edits.add(new TextEdit(r, newNamespace));
+				edits.add(Either.forLeft(new TextEdit(r, newNamespace)));
 			}
 		}
 		return edits;
@@ -398,11 +398,11 @@ class XMLRename {
 	 * @param newNamespace
 	 * @return
 	 */
-	private static List<TextEdit> renameElementAttributeValueNamespace(DOMDocument document, DOMElement element,
+	private static List<Either<TextEdit, SnippetTextEdit>> renameElementAttributeValueNamespace(DOMDocument document, DOMElement element,
 			String oldNamespace, String newNamespace) {
 
 		List<DOMAttr> attributes = element.getAttributeNodes();
-		List<TextEdit> edits = new ArrayList<>();
+		List<Either<TextEdit, SnippetTextEdit>> edits = new ArrayList<>();
 		if (attributes != null) {
 			for (DOMAttr attr : attributes) {
 				DOMRange attrValue = attr.getNodeAttrValue();
@@ -418,7 +418,7 @@ class XMLRename {
 						} catch (BadLocationException e) {
 							return edits;
 						}
-						edits.add(new TextEdit(new Range(start, end), newNamespace));
+						edits.add(Either.forLeft(new TextEdit(new Range(start, end), newNamespace)));
 					}
 				}
 			}

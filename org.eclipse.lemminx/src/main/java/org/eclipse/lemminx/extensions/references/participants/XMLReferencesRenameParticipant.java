@@ -14,7 +14,6 @@ package org.eclipse.lemminx.extensions.references.participants;
 import static org.eclipse.lemminx.utils.TextEditUtils.creatTextDocumentEdit;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.lemminx.dom.DOMNode;
@@ -29,7 +28,7 @@ import org.eclipse.lemminx.services.extensions.rename.IRenameRequest;
 import org.eclipse.lemminx.services.extensions.rename.IRenameResponse;
 import org.eclipse.lsp4j.PrepareRenameResult;
 import org.eclipse.lsp4j.Range;
-import org.eclipse.lsp4j.ResourceOperation;
+import org.eclipse.lsp4j.SnippetTextEdit;
 import org.eclipse.lsp4j.TextDocumentEdit;
 import org.eclipse.lsp4j.TextEdit;
 import org.eclipse.lsp4j.jsonrpc.CancelChecker;
@@ -110,18 +109,18 @@ public class XMLReferencesRenameParticipant implements IRenameParticipant {
 		query.setMatchNode(true);
 		query.setSearchInIncludedFiles(true);
 
-		List<TextEdit> textEdits = new ArrayList<>();
+		List<Either<TextEdit, SnippetTextEdit>> textEdits = new ArrayList<>();
 		String newText = request.getNewText();
 		SearchEngine.getInstance().search(query,
 				(fromSearchNode, toSearchNode, expression) -> {
 					Range range = fromSearchNode.createRange(true);
 					TextEdit textEdit = new TextEdit(range, newText);
-					textEdits.add(textEdit);
+					textEdits.add(Either.forLeft(textEdit));
 				},
 				cancelChecker);
 		// Insert at first, the text edit for the node which was updated
 		Range range = query.getSearchNode().createRange(true);
-		textEdits.add(0, new TextEdit(range, newText));
+		textEdits.add(0, Either.forLeft(new TextEdit(range, newText)));
 		return creatTextDocumentEdit(request.getXMLDocument(), textEdits);
 	}
 
