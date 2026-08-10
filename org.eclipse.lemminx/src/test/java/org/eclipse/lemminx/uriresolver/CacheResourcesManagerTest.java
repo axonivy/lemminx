@@ -17,18 +17,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Request;
-import org.eclipse.jetty.server.handler.AbstractHandler;
+import org.eclipse.jetty.server.Response;
+import org.eclipse.jetty.util.Callback;
 import org.eclipse.lemminx.AbstractCacheBasedTest;
 import org.eclipse.lemminx.utils.ExceptionUtils;
 import org.eclipse.lemminx.utils.FilesUtils;
@@ -165,11 +161,13 @@ public class CacheResourcesManagerTest extends AbstractCacheBasedTest {
 
 	@Test
 	public void testForbiddenRedirection() throws Exception {
-		Handler redirectHandler = new AbstractHandler() {
+		Handler redirectHandler = new Handler.Abstract() {
 			@Override
-			public void handle(String target, Request baseRequest, HttpServletRequest request,
-					HttpServletResponse response) throws IOException, ServletException {
-				response.setHeader("Location", request.getParameter("redirect"));
+			public boolean handle(Request request, Response response, Callback callback) throws Exception {
+				response.getHeaders().put("Location", Request.getParameters(request).getValue("redirect"));
+				response.setStatus(302);
+				callback.succeeded();
+				return true;
 			}
 
 		};
