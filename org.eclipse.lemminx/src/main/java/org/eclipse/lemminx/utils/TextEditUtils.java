@@ -24,6 +24,7 @@ import org.eclipse.lemminx.dom.DOMDocument;
 import org.eclipse.lsp4j.Position;
 import org.eclipse.lsp4j.Range;
 import org.eclipse.lsp4j.ResourceOperation;
+import org.eclipse.lsp4j.SnippetTextEdit;
 import org.eclipse.lsp4j.TextDocumentEdit;
 import org.eclipse.lsp4j.TextEdit;
 import org.eclipse.lsp4j.VersionedTextDocumentIdentifier;
@@ -160,7 +161,7 @@ public class TextEditUtils {
 	 * @param textEdits a list of text edit changes
 	 * @return A Text Dpcument Edit object
 	 */
-	public static TextDocumentEdit creatTextDocumentEdit(DOMDocument document, List<TextEdit> textEdits) {
+	public static TextDocumentEdit creatTextDocumentEdit(DOMDocument document, List<Either<TextEdit, SnippetTextEdit>> textEdits) {
 		VersionedTextDocumentIdentifier projectVersionedTextDocumentIdentifier = new VersionedTextDocumentIdentifier(
 				document.getDocumentURI(), document.getTextDocument().getVersion());
 		return new TextDocumentEdit(projectVersionedTextDocumentIdentifier, textEdits);

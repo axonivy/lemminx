@@ -50,7 +50,7 @@ public class IncrementalParsingTest {
 		document.setIncremental(true);
 
 		Range range1 = new Range(new Position(0, 1), new Position(0, 1));
-		TextDocumentContentChangeEvent change1 = new TextDocumentContentChangeEvent(range1, 0, "a");
+		TextDocumentContentChangeEvent change1 = new TextDocumentContentChangeEvent(range1, "a");
 
 		ArrayList<TextDocumentContentChangeEvent> changes = new ArrayList<>();
 		changes.add(change1);
@@ -77,7 +77,7 @@ public class IncrementalParsingTest {
 		document.setIncremental(true);
 
 		Range range1 = new Range(new Position(0, 1), new Position(0, 1));
-		TextDocumentContentChangeEvent change1 = new TextDocumentContentChangeEvent(range1, 0, "aaa");
+		TextDocumentContentChangeEvent change1 = new TextDocumentContentChangeEvent(range1, "aaa");
 
 		ArrayList<TextDocumentContentChangeEvent> changes = new ArrayList<>();
 		changes.add(change1);
@@ -103,7 +103,7 @@ public class IncrementalParsingTest {
 		document.setIncremental(true);
 
 		Range range1 = new Range(new Position(0, 1), new Position(0, 4));
-		TextDocumentContentChangeEvent change1 = new TextDocumentContentChangeEvent(range1, 3, "aaa");
+		TextDocumentContentChangeEvent change1 = new TextDocumentContentChangeEvent(range1, "aaa");
 
 		ArrayList<TextDocumentContentChangeEvent> changes = new ArrayList<>();
 		changes.add(change1);
@@ -129,7 +129,8 @@ public class IncrementalParsingTest {
 		document.setIncremental(true);
 
 		Range range1 = new Range(new Position(0, 1), new Position(-1, -1));
-		TextDocumentContentChangeEvent change1 = new TextDocumentContentChangeEvent(range1, 3, "aaa");
+		TextDocumentContentChangeEvent change1 = new TextDocumentContentChangeEvent(range1, "aaa");
+		change1.setRangeLength(3);
 
 		ArrayList<TextDocumentContentChangeEvent> changes = new ArrayList<>();
 		changes.add(change1);
@@ -152,7 +153,7 @@ public class IncrementalParsingTest {
 		document.setIncremental(true);
 
 		Range range1 = new Range(new Position(0, 4), new Position(2, 5));
-		TextDocumentContentChangeEvent change1 = new TextDocumentContentChangeEvent(range1, null, "/");
+		TextDocumentContentChangeEvent change1 = new TextDocumentContentChangeEvent(range1, "/");
 
 		ArrayList<TextDocumentContentChangeEvent> changes = new ArrayList<>();
 		changes.add(change1);
@@ -178,10 +179,10 @@ public class IncrementalParsingTest {
 		document.setIncremental(true);
 
 		Range range1 = new Range(new Position(0, 1), new Position(0, 1));
-		TextDocumentContentChangeEvent change1 = new TextDocumentContentChangeEvent(range1, 0, "a");
+		TextDocumentContentChangeEvent change1 = new TextDocumentContentChangeEvent(range1, "a");
 
 		Range range2 = new Range(new Position(2, 4), new Position(2, 4));
-		TextDocumentContentChangeEvent change2 = new TextDocumentContentChangeEvent(range2, 0, "b");
+		TextDocumentContentChangeEvent change2 = new TextDocumentContentChangeEvent(range2, "b");
 
 		ArrayList<TextDocumentContentChangeEvent> changes = new ArrayList<>();
 		// The order they are added in is backwards with the largest offset being first
@@ -210,10 +211,10 @@ public class IncrementalParsingTest {
 		document.setIncremental(true);
 
 		Range range1 = new Range(new Position(0, 1), new Position(0, 4));
-		TextDocumentContentChangeEvent change1 = new TextDocumentContentChangeEvent(range1, 3, "a");
+		TextDocumentContentChangeEvent change1 = new TextDocumentContentChangeEvent(range1, "a");
 
 		Range range2 = new Range(new Position(2, 4), new Position(2, 7));
-		TextDocumentContentChangeEvent change2 = new TextDocumentContentChangeEvent(range2, 3, "b");
+		TextDocumentContentChangeEvent change2 = new TextDocumentContentChangeEvent(range2, "b");
 
 		ArrayList<TextDocumentContentChangeEvent> changes = new ArrayList<>();
 		// The order they are added in is backwards with the largest offset being first
@@ -242,7 +243,7 @@ public class IncrementalParsingTest {
 		document.setIncremental(true);
 
 		Range range1 = new Range(new Position(0, 2), new Position(0, 3));
-		TextDocumentContentChangeEvent change1 = new TextDocumentContentChangeEvent(range1, 1, "");
+		TextDocumentContentChangeEvent change1 = new TextDocumentContentChangeEvent(range1,  "");
 
 		ArrayList<TextDocumentContentChangeEvent> changes = new ArrayList<>();
 		changes.add(change1);
@@ -269,10 +270,10 @@ public class IncrementalParsingTest {
 		document.setIncremental(true);
 
 		Range range1 = new Range(new Position(0, 2), new Position(0, 3));
-		TextDocumentContentChangeEvent change1 = new TextDocumentContentChangeEvent(range1, 1, "");
+		TextDocumentContentChangeEvent change1 = new TextDocumentContentChangeEvent(range1,  "");
 
 		Range range2 = new Range(new Position(2, 5), new Position(2, 6));
-		TextDocumentContentChangeEvent change2 = new TextDocumentContentChangeEvent(range2, 1, "");
+		TextDocumentContentChangeEvent change2 = new TextDocumentContentChangeEvent(range2, "");
 
 		ArrayList<TextDocumentContentChangeEvent> changes = new ArrayList<>();
 		changes.add(change2);

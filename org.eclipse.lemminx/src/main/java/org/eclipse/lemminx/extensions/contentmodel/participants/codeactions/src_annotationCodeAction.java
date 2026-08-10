@@ -18,8 +18,10 @@ import java.util.List;
 import org.eclipse.lsp4j.CodeAction;
 import org.eclipse.lsp4j.Diagnostic;
 import org.eclipse.lsp4j.Range;
+import org.eclipse.lsp4j.SnippetTextEdit;
 import org.eclipse.lsp4j.TextEdit;
 import org.eclipse.lsp4j.jsonrpc.CancelChecker;
+import org.eclipse.lsp4j.jsonrpc.messages.Either;
 import org.eclipse.lemminx.commons.BadLocationException;
 import org.eclipse.lemminx.commons.CodeActionFactory;
 import org.eclipse.lemminx.dom.DOMDocument;
@@ -61,12 +63,12 @@ public class src_annotationCodeAction implements ICodeActionParticipant {
 		}
 
 		for (String potentialTag : potentialTags) {
-			List<TextEdit> edits = new ArrayList<>();
+			List<Either<TextEdit, SnippetTextEdit>> edits = new ArrayList<>();
 			TextEdit replaceOpen = new TextEdit(diagnosticRange, potentialTag);
-			edits.add(replaceOpen);
+			edits.add(Either.forLeft(replaceOpen));
 			if (closeRange != null) {
 				TextEdit replaceClose = new TextEdit(closeRange, potentialTag);
-				edits.add(replaceClose);
+				edits.add(Either.forLeft(replaceClose));
 			}
 			CodeAction replaceAction = CodeActionFactory.replace(codeActionText + "'" + potentialTag + "'", edits,
 					document.getTextDocument(), diagnostic);

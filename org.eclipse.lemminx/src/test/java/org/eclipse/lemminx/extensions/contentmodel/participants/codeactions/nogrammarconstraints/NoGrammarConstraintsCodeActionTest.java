@@ -14,6 +14,9 @@ package org.eclipse.lemminx.extensions.contentmodel.participants.codeactions.nog
 import static org.eclipse.lemminx.XMLAssert.te;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.List;
+
+import org.assertj.core.util.Arrays;
 import org.eclipse.lemminx.AbstractCacheBasedTest;
 import org.eclipse.lemminx.XMLAssert;
 import org.eclipse.lemminx.commons.BadLocationException;
@@ -22,8 +25,10 @@ import org.eclipse.lemminx.dom.DOMDocument;
 import org.eclipse.lemminx.dom.DOMParser;
 import org.eclipse.lemminx.services.XMLLanguageService;
 import org.eclipse.lemminx.settings.SharedSettings;
+import org.eclipse.lsp4j.SnippetTextEdit;
 import org.eclipse.lsp4j.TextDocumentEdit;
 import org.eclipse.lsp4j.TextEdit;
+import org.eclipse.lsp4j.jsonrpc.messages.Either;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -186,8 +191,14 @@ public class NoGrammarConstraintsCodeActionTest extends AbstractCacheBasedTest {
 	}
 
 	private static TextDocumentEdit tde(TextEdit... edits) {
-		return XMLAssert.tde(TEST_DOCUMENT_URI, 0, edits);
+		List<Either<TextEdit, SnippetTextEdit>> editsList = List.of(edits).stream()
+				.map(Either::<TextEdit, SnippetTextEdit>forLeft).toList();
+		return XMLAssert.tde(TEST_DOCUMENT_URI, 0, editsList);
 	}
+
+	// private static TextDocumentEdit tde(Either<TextEdit, SnippetTextEdit>... edits) {
+	// 	return XMLAssert.tde(TEST_DOCUMENT_URI, 0, List.of(edits));
+	// }
 
 	private static void assertTextDocumentEdit(TextDocumentEdit expected, TextDocumentEdit actual) {
 		Assertions.assertEquals(expected.getTextDocument().getUri(), actual.getTextDocument().getUri());

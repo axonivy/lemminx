@@ -40,7 +40,7 @@ public class TargetNamespace_1CodeAction implements ICodeActionParticipant {
 	public void doCodeAction(ICodeActionRequest request, List<CodeAction> codeActions, CancelChecker cancelChecker) {
 		Diagnostic diagnostic = request.getDiagnostic();
 		DOMDocument document = request.getDocument();
-		String namespace = extractNamespace(diagnostic.getMessage());
+		String namespace = extractNamespace(diagnostic.getMessage().getLeft());
 		if (StringUtils.isEmpty(namespace)) {
 			return;
 		}

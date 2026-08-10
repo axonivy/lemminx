@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.eclipse.lemminx.AbstractCacheBasedTest;
@@ -26,6 +27,7 @@ import org.eclipse.lemminx.extensions.contentmodel.commands.AssociateGrammarComm
 import org.eclipse.lemminx.utils.platform.Platform;
 import org.eclipse.lsp4j.TextDocumentEdit;
 import org.eclipse.lsp4j.TextDocumentIdentifier;
+import org.eclipse.lsp4j.jsonrpc.messages.Either;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -51,9 +53,9 @@ public class AssociateGrammarCommandTest extends AbstractCacheBasedTest {
 				.executeCommand(AssociateGrammarCommand.COMMAND_ID, xmlIdentifier, xsdPath, bindingType).get();
 		assertNotNull(actual);
 
-		assertEquals(actual, tde(xmlPath, 1, te(1, 4, 1, 4, //
-				" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\r\n" + //
-						" xsi:noNamespaceSchemaLocation=\"xsd/tag.xsd\"")));
+		assertEquals(actual, tde(xmlPath, 1, List.of(Either.forLeft(te(1, 4, 1, 4,
+				" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\r\n" + 
+						" xsi:noNamespaceSchemaLocation=\"xsd/tag.xsd\"")))));
 	}
 
 	@Test
@@ -72,10 +74,10 @@ public class AssociateGrammarCommandTest extends AbstractCacheBasedTest {
 				.executeCommand(AssociateGrammarCommand.COMMAND_ID, xmlIdentifier, xsdPath, bindingType).get();
 		assertNotNull(actual);
 
-		assertEquals(actual, tde(xmlPath, 1, te(1, 4, 1, 4, //
+		assertEquals(actual, tde(xmlPath, 1, List.of(Either.forLeft(te(1, 4, 1, 4, //
 				" xmlns=\"team_namespace\"\r\n" + //
 						" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\r\n" + //
-						" xsi:schemaLocation=\"team_namespace xsd/team.xsd\"")));
+						" xsi:schemaLocation=\"team_namespace xsd/team.xsd\"")))));
 	}
 
 	@Test
@@ -93,8 +95,8 @@ public class AssociateGrammarCommandTest extends AbstractCacheBasedTest {
 				.executeCommand(AssociateGrammarCommand.COMMAND_ID, xmlIdentifier, dtdPath, bindingType).get();
 		assertNotNull(actual);
 
-		assertEquals(actual, tde(xmlPath, 1, //
-				te(1, 0, 1, 0, "<!DOCTYPE foo SYSTEM \"dtd/tag.dtd\">\r\n")));
+		assertEquals(actual, tde(xmlPath, 1, 
+				List.of(Either.forLeft(te(1, 0, 1, 0, "<!DOCTYPE foo SYSTEM \"dtd/tag.dtd\">\r\n")))));
 	}
 
 	@Test
@@ -113,7 +115,7 @@ public class AssociateGrammarCommandTest extends AbstractCacheBasedTest {
 		assertNotNull(actual);
 
 		assertEquals(actual, tde(xmlPath, 1, //
-				te(1, 0, 1, 0, "<?xml-model href=\"dtd/tag.dtd\"?>\r\n")));
+				List.of(Either.forLeft(te(1, 0, 1, 0, "<?xml-model href=\"dtd/tag.dtd\"?>\r\n")))));
 	}
 
 	@Test
@@ -131,9 +133,9 @@ public class AssociateGrammarCommandTest extends AbstractCacheBasedTest {
 				.executeCommand(AssociateGrammarCommand.COMMAND_ID, xmlIdentifier, xsdPath, bindingType).get();
 		assertNotNull(actual);
 
-		assertEquals(actual, tde(xmlPath, 1, //
-				te(1, 0, 1, 0, "<?xml-model href=\"xsd/team.xsd\"?>\r\n"), //
-				te(1, 4, 1, 4, " xmlns=\"team_namespace\"")));
+		assertEquals(actual, tde(xmlPath, 1, List.of(
+				Either.forLeft(te(1, 0, 1, 0, "<?xml-model href=\"xsd/team.xsd\"?>\r\n")),
+				Either.forLeft(te(1, 4, 1, 4, " xmlns=\"team_namespace\"")))));
 	}
 
 	@Test
